@@ -68,6 +68,18 @@ $OOBEDeployJson = @'
 $OOBEDeployJson | Out-File -FilePath "C:\ProgramData\OSDeploy\OSDeploy.OOBEDeploy.json" -Encoding ascii -Force
 
 #=======================================================================
+#   PostOS: AutopilotOOBE CMD Command Line
+#=======================================================================
+$AutopilotCmd = @'
+PowerShell -NoL -Com Set-ExecutionPolicy RemoteSigned -Force
+set path=%path%;C:\Program Files\WindowsPowerShell\Scripts
+start PowerShell -NoL -W Mi
+start /wait PowerShell -NoL -C Install-Module AutopilotOOBE -Force
+start /wait PowerShell -NoL -C Start-AutopilotOOBE -Title 'GetModern Autopilot Registration' -GroupTag Enterprise -GroupTagOptions Development,Enterprise -Assign
+'@
+$AutopilotCmd | Out-File -FilePath "C:\Windows\Autopilot.cmd" -Encoding ascii -Force
+
+#=======================================================================
 #   PostOS: Restart-Computer
 #=======================================================================
 Restart-Computer
